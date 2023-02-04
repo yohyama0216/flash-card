@@ -48,21 +48,26 @@ return new class extends Migration
             $table->id();
             $table->string('title',190)->unique();
             $table->timestamp('created_at')->useCurrent();
-            $table->index('created_at');
+            $table->timestamp('updated_at')->useCurrent();
+            $table->index(['created_at','updated_at']);
         });        
 
         /** 
          * 例文マスタ 
          * 英文、和文、ジャンル、英単語の数、英文字数、和文字数、追加日
          * */
-        Schema::dropIfExists('sentence');
-        Schema::create('sentence', function (Blueprint $table) {
+        Schema::dropIfExists('sentences');
+        Schema::create('sentences', function (Blueprint $table) {
             $table->id();
-            $table->string('sentence_en',190)->unique();
-            $table->string('sentence_jp',190)->unique();
-            $table->foreignId('category_id')->constrained('category');
+            $table->string('sentence_en',190);
+            //->unique();
+            $table->string('sentence_jp',190);
+            //->unique();
+            $table->foreignId('category_id');
+            //->constrained('category');
             $table->timestamp('created_at')->useCurrent();
-            $table->index('created_at');
+            $table->timestamp('updated_at')->useCurrent();
+            $table->index(['created_at','updated_at']);
         });
 
         /** 

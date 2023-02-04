@@ -19,46 +19,30 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-6">
             <h4>統計</h4>
             <ul>
-                <li>総例文数:3000</li>
-                <li>未着手  :2000</li>
-                <li>暗記中  :290</li>
-                <li>暗記完了:100</li>
-            </ul>
-        </div>
-        <div class="col-2">
-            <h4>学習ペース</h4>
-            <ul>
-                <li>新規:2.5</li>
-                <li>復習:2.5</li>
-                <li>完了:1.2</li>
-            </ul>
-        </div>
-        <div class="col-2">
-            <h4>学習ポイント</h4>
-            <ul>
-                <li>合計:1200</li>
+                <li>英文 <input type="text" name="sentence_en" value="" /> <button>検索</button></li>
+                <li>和文 <input type="text" name="sentence_jp" value="" /> <button>検索</button></li>
             </ul>
         </div>
     </div>
 
-    @if($data)
+    @if($sentences)
     <div class="table-responsive col-6">
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>学習日時</th>
-                    <th>問題数</th>
+                    <th>英文</th>
+                    <th>和文</th>
                     <th>学習ポイント</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $key => $item)
+                @foreach($sentences as $key => $sentence)
                     <tr>
-                        <td>2022/2/1 9:00:00</td>
-                        <td>新規:3 復習:5</td>
+                        <td>{{$sentence['sentence_en']}}</td>
+                        <td>{{$sentence['sentence_jp']}}</td>
                         <td>+120</td>
                     </tr>
                 @endforeach
