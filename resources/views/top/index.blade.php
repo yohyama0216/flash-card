@@ -6,20 +6,21 @@
 @include('layouts.sidebarmenu', ['current' => 'top'])
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" id="sentence">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">学習/学習中/学習完了</h1>
+        <h1 class="h2" v-text="getHeaderText()"></h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            
+
         </div>
     </div>
 
     @if($sentences)
-    <div class="row">
-        <div class="col-2">
-            <button>学習開始</button>                       
+    <section v-if="state == 'ready'"><!-- 学習準備画面 -->
+        <div class="row" >
+            <div class="col-2">
+                <button @click="changeStateToNow">学習開始</button>                       
+            </div>
         </div>
-    </div>
-
-    <!-- 学習中画面 -->
+    </section>
+    <section v-else-if="state == 'now'"><!-- 学習中画面 -->
     <div class="row">
          <h3>例文ID:12 <span>近くに住んでいるのですか？</span></h3>
     </div>
@@ -40,7 +41,8 @@
             <button>大正解</button>
         </div>
     </div>
-    <!-- 学習完了画面 -->
+    </section>
+    <section v-else-if="state == 'end'"><!-- 学習完了画面 -->
     <div class="row">
         <h3>お疲れさまでした。</h3>
         <button>終了する</button>
@@ -69,6 +71,7 @@
             </tbody>
         </table>
     </div>
+    </section>
     @else
     <div>例文が見つかりませんでした。</div>
     @endif

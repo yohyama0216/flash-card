@@ -1,6 +1,7 @@
 new Vue({
     el: '#sentence',
     data: {
+        state: 'ready',
         inputs: {
             judge_name: '',
         }
@@ -21,5 +22,18 @@ new Vue({
                     alert("※該当する審査員は見つかりませんでした。")
                 })
         },
-    }
+        getHeaderText: function (e) {
+            if (this.state == 'ready') {
+                return '学習準備';
+            } else if (this.state == 'now') {
+                return '学習中';
+            } else if (this.state == 'end') {
+                return '学習終了';
+            }
+        },
+        changeStateToNow: function (e) {
+            this.state = 'now'
+        }
+    },
+
 })
