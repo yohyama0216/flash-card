@@ -14,17 +14,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  @if($current == 'search')active @endif" href="/search">
+                <a class="nav-link  @if($current == 'search')active @endif" href="/sentence">
                     <span data-feather="search"></span>
                     英文、和文検索
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link @if($current == 'backtest')active @endif" href="/add">
-                    <span data-feather="plus-circle"></span>
-                    英文追加
-                </a>
-            </li>
+
         </ul>
     </div>
 </nav>

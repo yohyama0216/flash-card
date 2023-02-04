@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HistoryController extends Controller
+class SentenceController extends Controller
 {
     public function index(Request $request)
     {
         $data = [1];
-        return view('history.index', compact('data'));
+        return view('sentence.index', compact('data'));
     }
 }
