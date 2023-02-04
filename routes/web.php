@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'App\Http\Controllers\TopController@index');
+Route::get('/user', 'App\Http\Controllers\UserController@index');
 Route::get('/history', 'App\Http\Controllers\HistoryController@index');
 Route::get('/login', 'App\Http\Controllers\LoginController@index');
 Route::get('/sentence', 'App\Http\Controllers\SentenceController@index');
