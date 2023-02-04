@@ -6,7 +6,7 @@
 @include('layouts.sidebarmenu', ['current' => 'top'])
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">学習</h1>
+        <h1 class="h2">学習/学習中/学習完了</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -18,55 +18,71 @@
             </button>
         </div>
     </div>
+
+    @if($sentences)
     <div class="row">
         <div class="col-2">
-            <h4>統計</h4>
-            <ul>
-                <li>総例文数:3000</li>
-                <li>未着手  :2000</li>
-                <li>暗記中  :290</li>
-                <li>暗記完了:100</li>
-            </ul>
-        </div>
-        <div class="col-2">
-            <h4>学習ペース</h4>
-            <ul>
-                <li>新規:2.5</li>
-                <li>復習:2.5</li>
-                <li>完了:1.2</li>
-            </ul>
-        </div>
-        <div class="col-2">
-            <h4>学習ポイント</h4>
-            <ul>
-                <li>合計:1200</li>
-            </ul>
+            <button>学習開始</button>                       
         </div>
     </div>
 
-    @if($data)
+    <!-- 学習中画面 -->
+    <div class="row">
+         <h3>例文ID:12 <span>近くに住んでいるのですか？</span></h3>
+    </div>
+    <div class="row">
+        <h3>答え <span>Do you live around here?</span></h3>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <button>まったく違った</button>
+        </div>
+        <div class="col-2">
+            <button>少し違った</button>
+        </div>
+        <div class="col-2">
+            <button>だいたいOK</button>
+        </div>
+        <div class="col-2">
+            <button>大正解</button>
+        </div>
+    </div>
+    <!-- 学習完了画面 -->
+    <div class="row">
+        <h3>お疲れさまでした。</h3>
+        <button>終了する</button>
+        <button>続けて学習する</button>
+    </div>
     <div class="table-responsive col-6">
+        <h3>学習結果</h3>
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>学習日時</th>
-                    <th>問題数</th>
-                    <th>学習ポイント</th>
+                    <th></th>
+                    <th>ID</th>
+                    <th>英文</th>
+                    <th>和文</th>
+                    <th>回答</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $key => $item)
                     <tr>
-                        <td>2022/2/1 9:00:00</td>
-                        <td>新規:3 復習:5</td>
-                        <td>+120</td>
+                        <td>#1</td>
+                        <td>12</td>
+                        <td>あああああ</td>
+                        <td>AAAA</td>
+                        <td></td>
                     </tr>
-                @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+    // settingをもとにしてあらかじめ全件とってくる
+    const sentenceList = {{json_encode($sentences)}};  
+    </script>
     @else
-    <div>見つかりませんでした。</div>
+    <div>例文が見つかりませんでした。</div>
     @endif
 </main>
 @endsection
