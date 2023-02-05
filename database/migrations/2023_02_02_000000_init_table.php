@@ -38,19 +38,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->datetime('created_at');
             $table->datetime('updated_at');
-        });
-        /**
-         * 例文カテゴリー
-         * ID、カテゴリー名、追加日
-         */
-        Schema::dropIfExists('category');
-        Schema::create('category', function (Blueprint $table) {
-            $table->id();
-            $table->string('title',190)->unique();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
-            $table->index(['created_at','updated_at']);
-        });        
+        });    
 
         /** 
          * 例文マスタ 
@@ -59,14 +47,10 @@ return new class extends Migration
         Schema::dropIfExists('sentences');
         Schema::create('sentences', function (Blueprint $table) {
             $table->id();
-            $table->string('sentence_en',190);
-            //->unique();
-            $table->string('sentence_jp',190);
-            //->unique();
-            $table->foreignId('category_id');
-            //->constrained('category');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->string('sentence_en',190)->unique();
+            $table->string('sentence_jp',190)->unique();
+            $table->dateTime('created_at')->useCurrent();
+            $table->dateTime('updated_at')->useCurrent();
             $table->index(['created_at','updated_at']);
         });
 
