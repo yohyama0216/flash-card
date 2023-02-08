@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->runUser();
-        $this->runSentences();
+        // $this->runUser();
+        $this->runMovie();
 
 
     }
@@ -26,48 +26,19 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
     }
 
-    private function runSentences()
+    private function runMovie()
     {
-        DB::table('sentences')->truncate();
-        //C:\Users\acroadmin\Documents\flash-card\database\seeders\senteces.csv
-        $filePath = base_path('database\seeders\sentences2.csv');
-        $fp = fopen($filePath, 'r');
-        $now = (new DateTime())->format('Y-m-d h:i:s');
-        $sentences = [];
-        $count = 1;
-
-         // 英文の重複削除
-        $tmp = [];
-        while($data = fgetcsv($fp)){
-            $key = $data[0];
-            $tmp[$key] = [
-                'sentence_en' => $data[0],
-                'sentence_jp' => $data[1],
-                'created_at' => $now,
-                'updated_at' => $now
-            ];
-        }
-        fclose($fp);
-
-        // 和文の重複削除
-        $sentences = [];
-        foreach($tmp as $sentence) {
-            $key = $sentence['sentence_jp'];
-            $sentences[$key] = $sentence;
-        }
-
-
-        $fp = fopen(base_path('database\seeders\sentences2.csv'), 'w');
-        foreach($sentences as $sentence) {
-            fputcsv($fp, [$sentence['sentence_en'],$sentence['sentence_jp']]);
-        }
-        fclose($fp);
-
-        foreach($sentences as $sentence) {
-            $sentence['id'] = $count;
-            DB::table('sentences')->insert($sentence);
-            $count++;
-        }
-
+        DB::table('movies')->truncate();
+        DB::table('movies')->insert(
+            [
+                'url' => 'https://www.youtube.com/watch?v=PeiXWiIvg9s',
+                'winners_id' => '8QRCJQ9Y',
+                'winners_deck' => '26000042%3B26000083%3B28000016%3B26000046%3B26000055%3B26000043%3B28000015%3B28000000',
+                'losers_id' => '90UV8JRGR',
+                'losers_deck' => '28000000%3B28000008%3B26000042%3B26000004%3B26000046%3B26000036%3B26000050%3B26000005',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        );
     }
 }

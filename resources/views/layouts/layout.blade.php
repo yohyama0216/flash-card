@@ -19,7 +19,7 @@
     <!-- Favicons -->
 </head>
 
-<body>
+<body class="bg-dark">
     @include('layouts.headermenu')
     <div class="container-fluid">
         <div class="row">
