@@ -162,6 +162,7 @@ class DatabaseSeeder extends Seeder
         foreach($list as $key => $item) {
             $contents = file_get_contents($item);
             preg_match('#(https://youtube.com/.*).autoplay#',$contents,$matches);
+            preg_match('# class="replayPlayer__name ui__mediumText ui__link"> (.*) </a>#',$contents,$nameMatches);
             preg_match_all('#deck=(.*)" class="copyButton#',$contents,$deckMatches);
             $winners_deck = $deckMatches[1][0];
             $losers_deck = $deckMatches[1][1];
@@ -171,8 +172,10 @@ class DatabaseSeeder extends Seeder
             $result[] = [
                 'url' => $matches[1],
                 'winners_id' => $winners_id,
+                'winners_name' => $nameMatches[1][0],
                 'winners_deck' => $winners_deck,
                 'losers_id' => $losers_id,
+                'losers_name' => $nameMatches[1][1],
                 'losers_deck' => $losers_deck,
                 'created_at' => now(),
                 'updated_at' => now()  
