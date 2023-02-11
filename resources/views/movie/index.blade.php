@@ -40,7 +40,7 @@
         <strong class="d-block text-gray-dark">@username</strong>
             Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
         </p>
-        <div class="table-responsive col-12 border-bottom border-gray">
+        <div class="table-responsive text-wrap border-bottom border-gray">
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
@@ -53,11 +53,21 @@
                     @foreach($movies as $key => $movie)
                         <tr></tr>
                         <tr>
-                            <td>{{$movie['winners_id']}}</td><td>{{$movie['winners_deck']}}</td><td>3.6</td><td>COPY</td>
+                            <td>{{$movie['winners_id']}}</td>
+                            <!-- <td>
+                                {{$movie['winners_deck']}}
+                            </td> -->
+                            <td>3.6</td><td>COPY</td>
                         </tr>
                         <tr>
-                            <td>{{$movie['losers_id']}}</td><td>{{$movie['losers_deck']}}</td><td>3.6</td><td>COPY</td></tr>
-                        <tr><td>{{$movie['url']}}</td></tr>
+                            <td>{{$movie['losers_id']}}</td>
+                            <!-- <td>
+                                {{$movie['losers_deck']}}
+                            </td> -->
+                            <td>3.6</td><td>COPY</td></tr>
+                        <tr><td colspan="3" class="text-center">
+                            @include('parts.embed_movie', ['url' => $movie['url']])
+                        </td></tr>
                     @endforeach
                 </tbody>
             </table>
