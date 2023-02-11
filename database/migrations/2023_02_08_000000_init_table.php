@@ -27,7 +27,29 @@ return new class extends Migration
             $table->string('losers_deck');
             $table->datetime('created_at');
             $table->datetime('updated_at');
-        });    
+        });
+
+        /**
+         * カードマスタ
+         */
+        Schema::create('cards', function (Blueprint $table) {
+            $table->bigInteger('id');
+            $table->string('key');
+            $table->string('name_jp');
+            $table->tinyInteger('elixir');
+            $table->string('type');
+            $table->string('rarity');
+            $table->tinyInteger('arena');
+            $table->string('description_jp');
+            $table->string('file_name');
+            // $table->integer('sight_range');
+            // $table->integer('speed');
+            // $table->integer('hit_speed');
+            // $table->string('hitpoints_per_level');
+            // $table->string('damage_per_level');
+            $table->datetime('created_at');
+            $table->datetime('updated_at');
+        });
     }
 
     /**

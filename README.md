@@ -20,3 +20,12 @@ id, movie_url, winners_user_id, winners_name,winners_deck, losers_name,losers_us
 Deckクラス　arrayobject継承
 Cardクラス
 
+アプリの目的
+* Laravelに慣れる
+    * migration
+    * seeder
+    * service, repositoryの導入
+    * バッチ
+    * API
+* Vueに慣れる
+    * Ajax

@@ -44,6 +44,7 @@
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
+                        <th>名前</th>
                         <th>英文</th>
                         <th></th>
                         <th></th>
@@ -56,7 +57,7 @@
                             <td>{{$movie['winners_id']}}</td><td>{{$movie['winners_deck']}}</td><td>3.6</td><td>COPY</td>
                         </tr>
                         <tr>
-                            <td>{{$movie['losers_id']}}</td><td>{{$movie['losers_deck']}}</td><td>3.6</td><td>COPY</td></tr>
+                            <td>{{$movie['winners_id']}}</td><td>{{$movie['losers_deck']}}</td><td>3.6</td><td>COPY</td></tr>
                         <tr><td>{{$movie['url']}}</td></tr>
                     @endforeach
                 </tbody>

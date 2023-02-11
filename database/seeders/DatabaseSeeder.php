@@ -15,15 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->runUser();
         $this->runMovie();
-
-
-    }
-
-    private function runUser()
-    {
-        \App\Models\User::factory(10)->create();
+       // $this->runCard();
     }
 
     private function runMovie()
@@ -33,12 +26,43 @@ class DatabaseSeeder extends Seeder
             [
                 'url' => 'https://www.youtube.com/watch?v=PeiXWiIvg9s',
                 'winners_id' => '8QRCJQ9Y',
-                'winners_deck' => '26000042%3B26000083%3B28000016%3B26000046%3B26000055%3B26000043%3B28000015%3B28000000',
+                'winners_deck' => '26000042;26000083;28000016;26000046;26000055;26000043;28000015;28000000',
                 'losers_id' => '90UV8JRGR',
-                'losers_deck' => '28000000%3B28000008%3B26000042%3B26000004%3B26000046%3B26000036%3B26000050%3B26000005',
+                'losers_deck' => '28000000;28000008;26000042;26000004;26000046;26000036;26000050;26000005',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
         );
+    }
+
+    private function runCard()
+    {
+        DB::table('cards')->truncate();
+        DB::table('cards')->insert($this->getCharactersInfo());
+    }
+
+    /*
+     * クラロワAPIからカードの情報を登録
+     */
+
+    private function getCharactersInfo() {
+        $data = [];
+        $sourcePath = "https://raw.githubusercontent.com/RoyaleAPI/cr-api-data/master/docs/json/cards_i18n.json";
+        $content = file_get_contents($sourcePath, false);
+        $allCard = json_decode($content,true);
+        foreach($allCard as $card){
+            $index = rtrim($card['sc_key'],"s");
+            $data[$index] = [
+                'id' => $card['id'],
+                'key' => $card['key'],
+                'name_jp' => $card['_lang']['name']['jp'],
+                'description_jp' => $card['_lang']['description']['jp'],
+                'elixir' => $card['elixir'],
+                'type' => $card['type'],
+                'rarity' => $card['rarity'],
+                'arena' => $card['arena'],
+            ];
+        }
+        return $data;
     }
 }
