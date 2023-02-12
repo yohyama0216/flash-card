@@ -34,39 +34,6 @@
         Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
       </p>
     </div>
-    <div class="media text-muted pt-3">
-        <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect fill="#6f42c1" width="100%" height="100%"></rect><text fill="#6f42c1" dy=".3em" x="50%" y="50%">32x32</text></svg>
-        <p class="media-body pb-3 mb-0 small lh-125">
-        <strong class="d-block text-gray-dark">@username</strong>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        </p>
-        <div class="table-responsive col-12 border-bottom border-gray">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>名前</th>
-                        <th>英文</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($movies as $key => $movie)
-                        <tr></tr>
-                        <tr>
-                            <td>{{$movie['winners_id']}}</td><td>{{$movie['winners_deck']}}</td><td>3.6</td><td>COPY</td>
-                        </tr>
-                        <tr>
-                            <td>{{$movie['winners_id']}}</td><td>{{$movie['losers_deck']}}</td><td>3.6</td><td>COPY</td></tr>
-                        <tr><td>{{$movie['url']}}</td></tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <small class="d-block text-right mt-3">
-        <a href="#">All updates</a>
-        </small>
-    </div>
 </main>
 @endsection
 

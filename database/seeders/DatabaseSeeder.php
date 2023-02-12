@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->runMovie();
-       // $this->runCard();
+        $this->runCard();
     }
 
     private function runMovie()
@@ -172,10 +172,10 @@ class DatabaseSeeder extends Seeder
             $result[] = [
                 'url' => $matches[1],
                 'winners_id' => $winners_id,
-                'winners_name' => $nameMatches[1][0],
+                // 'winners_name' => $nameMatches[1][0],
                 'winners_deck' => $winners_deck,
                 'losers_id' => $losers_id,
-                'losers_name' => $nameMatches[1][1],
+                // 'losers_name' => $nameMatches[1][1],
                 'losers_deck' => $losers_deck,
                 'created_at' => now(),
                 'updated_at' => now()  
@@ -215,6 +215,8 @@ class DatabaseSeeder extends Seeder
                 'type' => $card['type'],
                 'rarity' => $card['rarity'],
                 'arena' => $card['arena'],
+                'created_at' => now(),
+                'updated_at' => now()  
             ];
         }
         return $data;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\CardService;
 use Illuminate\Http\Request;
-use App\Models\Card;
 
 class CardController extends Controller
 {

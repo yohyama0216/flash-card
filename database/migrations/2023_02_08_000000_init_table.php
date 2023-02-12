@@ -22,10 +22,10 @@ return new class extends Migration
             $table->id();
             $table->string('url');
             $table->string('winners_id');
-            $table->string('winners_name');
+            // $table->string('winners_name');
             $table->string('winners_deck');
             $table->string('losers_id');
-            $table->string('losers_name');
+            // $table->string('losers_name');
             $table->string('losers_deck');
             $table->datetime('created_at');
             $table->datetime('updated_at');
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('rarity');
             $table->tinyInteger('arena');
             $table->string('description_jp');
-            $table->string('file_name');
+            $table->string('file_name')->nullable();
             // $table->integer('sight_range');
             // $table->integer('speed');
             // $table->integer('hit_speed');
