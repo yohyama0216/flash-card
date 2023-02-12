@@ -20,39 +20,49 @@
         <h6 class="border-bottom border-gray pb-2 mb-0">検索件数：10件</h6>
         <div class="media text-muted pt-3">
             @foreach($movies as $key => $movie)
-            <div class="d-flex align-items-center p-1 my-3 text-white bg-info rounded shadow-sm">
-                <div class="col text-center">
+            <div class="d-flex align-items-center p-1 my-3 text-white bg-secondary rounded shadow-sm">
+                <div class="col-6 text-center bg-info">
                     <p>WIN<br/>ペッカ攻城</p>
+                    <div class="row p-1">
+                        <div class="col-2 d-flex align-items-center">
+                            <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
+                        </div>
+                        <div class="col-10">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                        </div>
+                    </div>
                 </div>
-                <div class="col text-center">
+                <div class="col-6 text-center bg-danger">
                     <p>LOSE<br/>ペッカ攻城</p>
+                    <div class="row p-1">
+                        <div class="col-2 d-flex align-items-center">
+                            <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
+                        </div>
+                        <div class="col-10">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-2">
-                    <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                </div>
-                <div class="col-8 mx-auto">
+                <div class="col-12">
+                    <div class="ratio ratio-16x9">
                         @include('parts.embed_movie', ['url' => $movie['url']])
-                </div>
-                <div class="col-2">
-                    <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                    <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                    </div>
                 </div>
             </div>               
             @endforeach
