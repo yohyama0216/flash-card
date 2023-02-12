@@ -1,4 +1,4 @@
-<iframe height="500" 
+<iframe height="400" width="200" 
         src="{{$url}}" 
         title="YouTube video player" 
         frameborder="0" 

@@ -39,7 +39,7 @@ class MovieRepository
             return Movie::where($loseConditions)->get(); 
         } else {
             return Movie::where($winConditions)
-            ->orWhere($loseConditions)->get();  
+            ->orWhere($loseConditions)->limit(10)->get();  
         }
     }
 }
