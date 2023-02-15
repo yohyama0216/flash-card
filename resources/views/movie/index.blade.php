@@ -25,17 +25,12 @@
                     <p>WIN<br/>ペッカ攻城</p>
                     <div class="row p-1">
                         <div class="col-2 d-flex align-items-center">
-                            <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
+                        <a href="{{$movie->getDeckCopyUrl('win')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
                         </div>
                         <div class="col-10">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            @foreach($movie->getCardsFromDeck('win') as $card)
+                            <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -43,17 +38,12 @@
                     <p>LOSE<br/>ペッカ攻城</p>
                     <div class="row p-1">
                         <div class="col-2 d-flex align-items-center">
-                            <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
+                            <a href="{{$movie->getDeckCopyUrl('lose')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
                         </div>
                         <div class="col-10">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
-                            <img height="40" src="https://cdn.statsroyale.com/images/cards/full/ghost.png" alt="">
+                            @foreach($movie->getCardsFromDeck('lose') as $card)
+                            <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
+                            @endforeach
                         </div>
                     </div>
                 </div>
