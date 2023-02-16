@@ -16,12 +16,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->runMovie();
-        $this->runCard();
+        // $this->runCard();
     }
 
     private function runMovie()
     {
         DB::table('movies')->truncate();
+        DB::table('players')->truncate();
 
         $list = [
             // 'https://statsroyale.com/watch/73002030/1638262286_%2320QJJ9LPJ_%2328LGQ2RC',
@@ -159,6 +160,7 @@ class DatabaseSeeder extends Seeder
             'https://statsroyale.com/watch/top200/1644865209_%239R99CPCPL_%23PY2VP2YY9',
         ];
 
+        $movie_id = 0;
         foreach($list as $key => $item) {
             $contents = file_get_contents($item);
             preg_match('#(https://youtube.com/.*).autoplay#',$contents,$matches);
@@ -169,22 +171,37 @@ class DatabaseSeeder extends Seeder
             $arr = explode('_%23',$item);
             $winners_id = $arr[1];
             $losers_id = $arr[2];
-            $result[] = [
+            $result_movie = [
+                'id' => $movie_id,
                 'url' => $matches[1],
-                'winners_id' => $winners_id,
-                // 'winners_name' => $nameMatches[1][0],
-                'winners_deck' => $winners_deck,
-                'losers_id' => $losers_id,
-                // 'losers_name' => $nameMatches[1][1],
-                'losers_deck' => $losers_deck,
                 'created_at' => now(),
                 'updated_at' => now()  
             ];
-            // if ($key > 49) {
-            //     break;
-            // }
+            DB::table('movies')->insert($result_movie);
+
+            $result_players = [
+                [
+                    'movie_id' => $movie_id,
+                    'cr_id' => $winners_id,
+                    // 'winners_name' => $nameMatches[1][0],
+                    'deck' => $winners_deck,
+                    'result' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now() 
+                ],
+                [
+                    'movie_id' => $movie_id,
+                    'cr_id' => $losers_id,
+                    // 'winners_name' => $nameMatches[1][0],
+                    'deck' => $losers_deck,
+                    'result' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now() 
+                ],
+            ];
+            DB::table('players')->insert($result_players);
+            $movie_id++;
         }
-        DB::table('movies')->insert($result);
     }
 
 

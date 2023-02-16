@@ -14,19 +14,28 @@ return new class extends Migration
     public function up()
     {
         /** 
-         * 動画 
-         * 
+         * 対戦動画 
          */
         Schema::dropIfExists('movies');
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
             $table->string('url');
-            $table->string('winners_id');
-            // $table->string('winners_name');
-            $table->string('winners_deck');
-            $table->string('losers_id');
-            // $table->string('losers_name');
-            $table->string('losers_deck');
+            $table->datetime('created_at');
+            $table->datetime('updated_at');
+        });
+
+        /** 
+         * 対戦プレイヤー
+         */
+        Schema::dropIfExists('players');
+        Schema::create('players', function (Blueprint $table) {
+            $table->id();
+            $table->string('cr_id');
+            $table->string('movie_id');
+            $table->foreign('movie_id')->references('id')->on('movies')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->string('name');
+            $table->string('deck');
+            $table->tinyInteger('result'); // Enum？ win or lose
             $table->datetime('created_at');
             $table->datetime('updated_at');
         });
@@ -34,6 +43,7 @@ return new class extends Migration
         /**
          * カードマスタ
          */
+        Schema::dropIfExists('cards');
         Schema::create('cards', function (Blueprint $table) {
             $table->bigInteger('id');
             $table->string('key');
@@ -43,7 +53,6 @@ return new class extends Migration
             $table->string('rarity');
             $table->tinyInteger('arena');
             $table->string('description_jp');
-            $table->string('file_name')->nullable();
             // $table->integer('sight_range');
             // $table->integer('speed');
             // $table->integer('hit_speed');
