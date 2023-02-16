@@ -7,13 +7,21 @@ use App\Models\Movie;
 
 class MovieRepository
 {    
+    private $Movie;    
     private CONST PEKKA_BATTLE_RAM_IDS = [
         '26000004','26000036'
     ];
     
+    public function __construct(
+        Movie $Movie
+    )
+    {
+        $this->Movie = $Movie;
+    }
+
     public function findAll()
     {
-        return Movie::all();
+        return $this->Movie::all();
     }
 
     /**
@@ -34,11 +42,11 @@ class MovieRepository
         }
         
         if ($type == 'win') {
-            return Movie::where($winConditions)->get(); 
+            return $this->Movie::where($winConditions)->get(); 
         } else if ($type == 'lose') {
-            return Movie::where($loseConditions)->get(); 
+            return $this->Movie::where($loseConditions)->get(); 
         } else {
-            return Movie::where($winConditions)
+            return $this->Movie::where($winConditions)
             ->orWhere($loseConditions)->limit(10)->get();  
         }
     }

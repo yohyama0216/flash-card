@@ -7,18 +7,28 @@ use App\Models\Card;
 
 class CardRepository
 {        
+    private $Card;
+
+    public function __construct(
+        $Card
+    )
+    {
+        $this->Card = $Card;
+    }
+    
+    
     public function findAll()
     {
-        return Card::all();
+        return $this->Card::all();
     }
 
     public function findById($id)
     {
-        return Card::find($id);
+        return $this->Card::find($id);
     }
 
     public function findByType($type)
     {
-        return Card::where('type','=',$type)->get();
+        return $this->Card::where('type','=',$type)->get();
     }
 }
