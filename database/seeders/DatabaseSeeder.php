@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->runMovie();
-        // $this->runCard();
+        $this->runCard();
     }
 
     private function runMovie()

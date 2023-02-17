@@ -10,7 +10,7 @@ class CardRepository
     private $Card;
 
     public function __construct(
-        $Card
+        Card $Card
     )
     {
         $this->Card = $Card;

@@ -13,32 +13,26 @@ class Movie extends Model
     // 以下、全部Deckクラスな気もするが。TODO
     private CONST DECK_COPY_BASE_URL = 'https://link.clashroyale.com/deck/jp?deck={deck}';
     
-    public function getCardsFromDeck($type)
-    {
-        $deck = [];
-        if ($type == 'win') {
-            $deck = $this->winners_deck;
-        } else if ($type == 'lose') {
-            $deck = $this->losers_deck;
-        }
-        
-        $cardIdList = explode(';',$deck);
-        $list = [];
-        foreach($cardIdList as $cardId) {
+    public function getCardKeyListFromDeck($player)
+    {        
+        $players_deck = $player."_deck";
+        $cardIdList = explode(';',$this->$players_deck);
+        $cardKeylist = [];
+        foreach($cardIdList as $cardId) {           
             $Card = Card::find($cardId);
-            $list[$cardId] = $Card->key;
+            $cardKeylist[$cardId] = $Card->key;
         }
-        return $list;
+        return $cardKeylist;
     }
 
-    public function getDeckCopyUrl($type)
+    public function getDeckCopyUrl($player)
     {
-        $deck = [];
-        if ($type == 'win') {
-            $deck = $this->winners_deck;
-        } else if ($type == 'lose') {
-            $deck = $this->losers_deck;
-        }
-        return str_replace('{deck}',$deck,self::DECK_COPY_BASE_URL);
+        $players_deck = $player."_deck";
+        return str_replace('{deck}',$this->$players_deck,self::DECK_COPY_BASE_URL);
+    }
+
+    public function testing()
+    {
+        var_dump($this->winners_deck);
     }
 }

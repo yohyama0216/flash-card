@@ -25,10 +25,10 @@
                     <p>WIN<br/>ペッカ攻城</p>
                     <div class="row p-1">
                         <div class="col-2 d-flex align-items-center">
-                        <a href="{{$movie->getDeckCopyUrl('win')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
+                        <a href="{{$movie->getDeckCopyUrl('winner')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
                         </div>
                         <div class="col-10">
-                            @foreach($movie->getCardsFromDeck('win') as $card)
+                            @foreach($movie->getCardKeyListFromDeck('winner') as $card)
                             <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
                             @endforeach
                         </div>
@@ -38,10 +38,10 @@
                     <p>LOSE<br/>ペッカ攻城</p>
                     <div class="row p-1">
                         <div class="col-2 d-flex align-items-center">
-                            <a href="{{$movie->getDeckCopyUrl('lose')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
+                            <a href="{{$movie->getDeckCopyUrl('loser')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
                         </div>
                         <div class="col-10">
-                            @foreach($movie->getCardsFromDeck('lose') as $card)
+                            @foreach($movie->getCardKeyListFromDeck('loser') as $card)
                             <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
                             @endforeach
                         </div>
@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="ratio ratio-16x9">
-                        @include('parts.embed_movie', ['url' => $movie['url']])
+                        @include('parts.embed_movie', ['url' => $movie['movie_url']])
                     </div>
                 </div>
             </div>               

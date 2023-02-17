@@ -33,21 +33,31 @@ class MovieRepository
         if (empty($cardIdList)) {
             $cardIdList = self::PEKKA_BATTLE_RAM_IDS;
         }
-        
-        $winConditions = [];
-        $loseConditions = [];
+
+        $win_conditions = $lose_conditions = [];
         foreach($cardIdList as $cardId) {
-            $winConditions[] = ['winners_deck', 'like','%'.$cardId.'%'];
-            $loseConditions[] = ['losers_deck', 'like','%'.$cardId.'%'];
+            $win_conditions[] = ['winner_deck', 'like','%'.$cardId.'%'];
+            $lose_conditions[] = ['loser_deck', 'like','%'.$cardId.'%'];
         }
-        
-        if ($type == 'win') {
-            return $this->Movie::where($winConditions)->get(); 
-        } else if ($type == 'lose') {
-            return $this->Movie::where($loseConditions)->get(); 
+
+        $query = $this->Movie::leftJoin('players as winner', function($join){
+            $join->on('movies.id', '=', 'winner.movie_id',)
+                ->where('winner.result', '=', 1);
+            })
+            ->join('players as loser', function($join){
+                $join->on('movies.id', '=', 'loser.movie_id',)
+                    ->where('loser.result', '=', 0);
+            })
+            ->select('movies.id as movie_id','movies.url as movie_url','winner.deck as winner_deck','loser.deck as loser_deck');
+
+        if ($type == 'winner') {
+            $query = $query->where($win_conditions);
+        } else if ($type == 'loser') {
+            $query = $query->where($lose_conditions);
         } else {
-            return $this->Movie::where($winConditions)
-            ->orWhere($loseConditions)->limit(10)->get();  
+            $query = $query->where($win_conditions)
+            ->orWhere($lose_conditions);
         }
+        return $query->limit(10)->get();
     }
 }
