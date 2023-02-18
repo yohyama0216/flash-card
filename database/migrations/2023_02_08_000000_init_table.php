@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -18,7 +19,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('battles');
         Schema::create('battles', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedbigInteger('id');
             $table->string('url');
             $table->datetime('created_at');
             $table->datetime('updated_at');
@@ -29,16 +30,40 @@ return new class extends Migration
          */
         Schema::dropIfExists('players');
         Schema::create('players', function (Blueprint $table) {
-            $table->id();
-            $table->string('cr_id');
-            $table->string('battle_id');
-            $table->foreign('battle_id')->references('id')->on('battles')->cascadeOnUpdate()->cascadeOnDelete();
-            // $table->string('name');
-            $table->string('deck');
+            $table->unsignedbigInteger('id');
+            // $table->string('profile_id');
+            $table->unsignedbigInteger('cr_id');
+            $table->unsignedbigInteger('battle_id');
+            $table->foreign('battle_id')->references('id')->on('battles');
             $table->tinyInteger('result'); // Enum？ win or lose
             $table->datetime('created_at');
             $table->datetime('updated_at');
         });
+
+        /**
+         * デッキ
+         */
+        Schema::dropIfExists('decks');
+        Schema::create('decks', function (Blueprint $table) {
+            $table->unsignedbigInteger('id');
+            $table->string('name');
+            $table->datetime('created_at');
+            $table->datetime('updated_at');
+        }); 
+
+        /**
+         * デッキプレイヤー
+         */
+        Schema::dropIfExists('deck_player');
+        Schema::create('deck_player', function (Blueprint $table) {
+            $table->bigInteger('id');
+            $table->bigInteger('deck_id');
+            $table->foreign('deck_id')->references('id')->on('decks')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->bigInteger('player_id');
+            $table->foreign('player_id')->references('id')->on('players')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->datetime('created_at');
+            $table->datetime('updated_at');
+        });        
 
         /**
          * カードマスタ
@@ -61,6 +86,22 @@ return new class extends Migration
             $table->datetime('created_at');
             $table->datetime('updated_at');
         });
+
+        /**
+         * デッキカード
+         */
+        Schema::dropIfExists('card_deck');
+        Schema::create('card_deck', function (Blueprint $table) {
+            $table->bigInteger('id');
+            $table->bigInteger('deck_id');
+            $table->foreign('deck_id')->references('id')->on('decks')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('card_id');
+            $table->foreign('card_id')->references('id')->on('cards')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->datetime('created_at');
+            $table->datetime('updated_at');
+        }); 
+
+
     }
 
     /**
