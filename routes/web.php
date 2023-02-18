@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/card', 'App\Http\Controllers\CardController@index');
-Route::get('/', 'App\Http\Controllers\MovieController@index');
+Route::get('/', 'App\Http\Controllers\BattleController@index');

@@ -3,25 +3,25 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
-use App\Models\Movie;
+use App\Models\Battle;
 
-class MovieRepository
+class BattleRepository
 {    
-    private $Movie;    
+    private $Battle;    
     private CONST PEKKA_BATTLE_RAM_IDS = [
         '26000004','26000036'
     ];
     
     public function __construct(
-        Movie $Movie
+        Battle $Battle
     )
     {
-        $this->Movie = $Movie;
+        $this->Battle = $Battle;
     }
 
     public function findAll()
     {
-        return $this->Movie::all();
+        return $this->Battle::all();
     }
 
     /**
@@ -40,15 +40,15 @@ class MovieRepository
             $lose_conditions[] = ['loser_deck', 'like','%'.$cardId.'%'];
         }
 
-        $query = $this->Movie::leftJoin('players as winner', function($join){
-            $join->on('movies.id', '=', 'winner.movie_id',)
+        $query = $this->Battle::leftJoin('players as winner', function($join){
+            $join->on('battles.id', '=', 'winner.battle_id',)
                 ->where('winner.result', '=', 1);
             })
             ->join('players as loser', function($join){
-                $join->on('movies.id', '=', 'loser.movie_id',)
+                $join->on('battles.id', '=', 'loser.battle_id',)
                     ->where('loser.result', '=', 0);
             })
-            ->select('movies.id as movie_id','movies.url as movie_url','winner.deck as winner_deck','loser.deck as loser_deck');
+            ->select('battles.id as battle_id','battles.url as battle_url','winner.deck as winner_deck','loser.deck as loser_deck');
 
         if ($type == 'winner') {
             $query = $query->where($win_conditions);

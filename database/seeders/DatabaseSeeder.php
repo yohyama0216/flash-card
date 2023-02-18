@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->runMovie();
+        $this->runBattle();
         $this->runCard();
     }
 
-    private function runMovie()
+    private function runBattle()
     {
-        DB::table('movies')->truncate();
+        DB::table('battles')->truncate();
         DB::table('players')->truncate();
 
         $list = [
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
             'https://statsroyale.com/watch/top200/1644865209_%239R99CPCPL_%23PY2VP2YY9',
         ];
 
-        $movie_id = 0;
+        $battle_id = 0;
         foreach($list as $key => $item) {
             $contents = file_get_contents($item);
             preg_match('#(https://youtube.com/.*).autoplay#',$contents,$matches);
@@ -171,17 +171,17 @@ class DatabaseSeeder extends Seeder
             $arr = explode('_%23',$item);
             $winners_id = $arr[1];
             $losers_id = $arr[2];
-            $result_movie = [
-                'id' => $movie_id,
+            $result_battle = [
+                'id' => $battle_id,
                 'url' => $matches[1],
                 'created_at' => now(),
                 'updated_at' => now()  
             ];
-            DB::table('movies')->insert($result_movie);
+            DB::table('battles')->insert($result_battle);
 
             $result_players = [
                 [
-                    'movie_id' => $movie_id,
+                    'battle_id' => $battle_id,
                     'cr_id' => $winners_id,
                     // 'winners_name' => $nameMatches[1][0],
                     'deck' => $winners_deck,
@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
                     'updated_at' => now() 
                 ],
                 [
-                    'movie_id' => $movie_id,
+                    'battle_id' => $battle_id,
                     'cr_id' => $losers_id,
                     // 'winners_name' => $nameMatches[1][0],
                     'deck' => $losers_deck,
@@ -200,7 +200,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ];
             DB::table('players')->insert($result_players);
-            $movie_id++;
+            $battle_id++;
         }
     }
 

@@ -16,8 +16,8 @@ return new class extends Migration
         /** 
          * 対戦動画 
          */
-        Schema::dropIfExists('movies');
-        Schema::create('movies', function (Blueprint $table) {
+        Schema::dropIfExists('battles');
+        Schema::create('battles', function (Blueprint $table) {
             $table->id();
             $table->string('url');
             $table->datetime('created_at');
@@ -31,8 +31,8 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('cr_id');
-            $table->string('movie_id');
-            $table->foreign('movie_id')->references('id')->on('movies')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('battle_id');
+            $table->foreign('battle_id')->references('id')->on('battles')->cascadeOnUpdate()->cascadeOnDelete();
             // $table->string('name');
             $table->string('deck');
             $table->tinyInteger('result'); // Enum？ win or lose
