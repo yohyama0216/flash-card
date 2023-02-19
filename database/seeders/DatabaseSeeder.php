@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         DB::table('battles')->truncate();
         DB::table('players')->truncate();
         DB::table('decks')->truncate();
-        DB::table('deck_player')->truncate();
+        // DB::table('deck_player')->truncate();
         DB::table('card_deck')->truncate();
         $list = [
             // 'https://statsroyale.com/watch/73002030/1638262286_%2320QJJ9LPJ_%2328LGQ2RC',
@@ -186,8 +186,9 @@ class DatabaseSeeder extends Seeder
             $lose_player_id = $win_player_id + 1;
             $lose_deck_id = $win_deck_id + 1;
             $this->savePlayer($battle_id,$win_player_id,$winners_id,$lose_player_id,$losers_id);
-            $this->saveDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck);
+            $this->saveDeck($battle_id,$win_deck_id,$winners_deck,$lose_deck_id,$losers_deck);
             $this->saveDeckPlayer($win_deck_id,$win_player_id,$lose_deck_id,$lose_player_id);
+            $this->saveCardDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck);
 
             $battle_id++;
             $win_deck_id = $lose_deck_id + 1;
@@ -239,18 +240,22 @@ class DatabaseSeeder extends Seeder
         DB::table('players')->insert($result_players);
     }
 
-    private function saveDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck)
+    private function saveDeck($battle_id,$win_deck_id,$winners_deck,$lose_deck_id,$losers_deck)
     {
         $deck_result = [
             [
                 'id' => $win_deck_id,
+                'battle_id' => $battle_id,
                 'name' => $this->createDeckName($winners_deck),
+                'result' => 1,
                 'created_at' => now(),
                 'updated_at' => now() 
             ],
             [
                 'id' => $lose_deck_id,
+                'battle_id' => $battle_id,
                 'name' => $this->createDeckName($losers_deck),
+                'result' => 0,
                 'created_at' => now(),
                 'updated_at' => now()  
             ],
@@ -279,6 +284,32 @@ class DatabaseSeeder extends Seeder
         ];
 
         DB::table('deck_player')->insert($deck_player_result);
+    }
+
+    private function saveCardDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck)
+    {
+        $card_deck_result = [];
+
+        $win_card_id_list = explode(';',$winners_deck);
+        foreach($win_card_id_list as $win_card_id) {
+            $card_deck_result[] = [
+                'deck_id' => $win_deck_id,
+                'card_id' => $win_card_id,
+                'created_at' => now(),
+                'updated_at' => now() 
+            ];
+        }
+        $lose_card_id_list = explode(';',$losers_deck);
+        foreach($lose_card_id_list as $lose_card_id) {
+            $card_deck_result[] = [
+                'deck_id' => $lose_deck_id,
+                'card_id' => $lose_card_id,
+                'created_at' => now(),
+                'updated_at' => now() 
+            ];
+        }
+
+        DB::table('card_deck')->insert($card_deck_result);
     }
 
     /**

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
+
 
 return new class extends Migration
 {
@@ -47,6 +47,9 @@ return new class extends Migration
         Schema::create('decks', function (Blueprint $table) {
             $table->unsignedbigInteger('id')->autoIncrement();
             $table->string('name');
+            $table->unsignedbigInteger('battle_id');
+            $table->foreign('battle_id')->references('id')->on('battles');
+            $table->tinyInteger('result'); // Enum？ win or lose
             $table->datetime('created_at');
             $table->datetime('updated_at');
         }); 

@@ -21,37 +21,30 @@
         <div class="media text-muted pt-3">
             @foreach($battles as $key => $battle)
             <div class="d-flex align-items-center p-1 my-3 text-white bg-secondary rounded shadow-sm">
+                @foreach($battle->players as $player)
                 <div class="col-6 text-center bg-info">
-                    <p>WIN<br/>ペッカ攻城</p>
                     <div class="row p-1">
+                    @foreach($player->decks as $deck)
+                    <p>@if ($player['result']) WIN @else LOSE @endif <br/>{{$deck['name']}}</p>    
                         <div class="col-2 d-flex align-items-center">
-                        <a href="{{$battle->getDeckCopyUrl('winner')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
+                            <a href="{{$battle->getDeckCopyUrl('winner')}}">
+                                <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
+                            </a>
                         </div>
                         <div class="col-10">
-                            @foreach($battle->getCardKeyListFromDeck('winner') as $card)
-                            <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
+                            @foreach($deck->cards as $card)
+                            <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card->key}}.png" alt="">
                             @endforeach
                         </div>
+                    @endforeach
                     </div>
                 </div>
-                <div class="col-6 text-center bg-danger">
-                    <p>LOSE<br/>ペッカ攻城</p>
-                    <div class="row p-1">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="{{$battle->getDeckCopyUrl('loser')}}"><img height="35" src="https://cdn.statsroyale.com/images/copy.png"></a>
-                        </div>
-                        <div class="col-10">
-                            @foreach($battle->getCardKeyListFromDeck('loser') as $card)
-                            <img height="40" src="https://raw.githubusercontent.com/RoyaleAPI/cr-api-assets/master/cards-75/{{$card}}.png" alt="">
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="ratio ratio-16x9">
-                        @include('parts.embed_battle', ['url' => $battle['battle_url']])
+                        @include('parts.embed_battle', ['url' => $battle->url])
                     </div>
                 </div>
             </div>               

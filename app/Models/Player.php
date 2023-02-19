@@ -10,6 +10,11 @@ class Player extends Model
 {
     use HasFactory;
 
+    public function battles(): BelongsToMany
+    {
+        return $this->belongsToMany(Battle::class);
+    }
+
     public function decks(): BelongsToMany
     {
         return $this->belongsToMany(Deck::class);
