@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->runCard();
+        $this->runCard();
         $this->runBattle();
     }
 
@@ -29,8 +29,11 @@ class DatabaseSeeder extends Seeder
     private function runBattle()
     {
         Schema::disableForeignKeyConstraints();
-        DB::table('battles')->delete();
-        DB::table('players')->delete();
+        DB::table('battles')->truncate();
+        DB::table('players')->truncate();
+        DB::table('decks')->truncate();
+        DB::table('deck_player')->truncate();
+        DB::table('card_deck')->truncate();
         $list = [
             // 'https://statsroyale.com/watch/73002030/1638262286_%2320QJJ9LPJ_%2328LGQ2RC',
             // 'https://statsroyale.com/watch/73003562/1595699299_%2328U0CP2UP_%23YVQPUP0CL',
@@ -171,6 +174,7 @@ class DatabaseSeeder extends Seeder
         foreach($list as $key => $item) {
             $contents = file_get_contents($item);
             preg_match('#(https://youtube.com/.*).autoplay#',$contents,$matches);
+            $url = $matches[1];
             preg_match('# class="replayPlayer__name ui__mediumText ui__link"> (.*) </a>#',$contents,$nameMatches);
             preg_match_all('#deck=(.*)" class="copyButton#',$contents,$deckMatches);
             $winners_deck = $deckMatches[1][0];
@@ -178,83 +182,103 @@ class DatabaseSeeder extends Seeder
             $arr = explode('_%23',$item);
             $winners_id = $arr[1];
             $losers_id = $arr[2];
-            $result_battle = [
-                'id' => $battle_id,
-                'url' => $matches[1],
-                'created_at' => now(),
-                'updated_at' => now()  
-            ];
-
-            $battle_last_insert_id = DB::table('battles')->insertGetId($result_battle);
-
-            
+            $this->saveBattle($battle_id,$url);
             $lose_player_id = $win_player_id + 1;
             $lose_deck_id = $win_deck_id + 1;
-            $result_players = [
-                [
-                    'id' => $win_player_id,
-                    'battle_id' => $battle_id,
-                    'cr_id' => $winners_id,
-                    // 'winners_name' => $nameMatches[1][0],
-                    // 'deck' => $winners_deck,
-                    'result' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now() 
-                ],
-                [
-                    'id' => $lose_player_id,
-                    'battle_id' => $battle_id,
-                    'cr_id' => $losers_id,
-                    // 'winners_name' => $nameMatches[1][0],
-                    // 'deck' => $losers_deck,
-                    'result' => 0,
-                    'created_at' => now(),
-                    'updated_at' => now() 
-                ],
-            ];
-            $player_last_insert_id = DB::table('players')->insert($result_players);
-            // last insert idは複数では使えない            
+            $this->savePlayer($battle_id,$win_player_id,$winners_id,$lose_player_id,$losers_id);
+            $this->saveDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck);
+            $this->saveDeckPlayer($win_deck_id,$win_player_id,$lose_deck_id,$lose_player_id);
 
-            
-            $battle_id = $battle_last_insert_id + 1;
-            $win_player_id = $player_last_insert_id + 1;
-
-            return ;
-
-            $deck_result = [
-                [
-                    'id' => $win_deck_id,
-                    'name' => $this->createDeckName($winners_deck),
-                    'created_at' => now(),
-                    'updated_at' => now() 
-                ],
-                [
-                    'id' => $lose_deck_id + 1,
-                    'name' => $this->createDeckName($losers_deck),
-                    'created_at' => now(),
-                    'updated_at' => now()  
-                ],
-            ];
-            $deck_last_insert_id = DB::table('decks')->insertGetId($deck_result);
-            $win_deck_id = $deck_last_insert_id + 1;
-
-            $deck_player_result = [
-                [
-                    'deck_id' => $win_deck_id,
-                    'player_id' => $win_player_id,
-                    'created_at' => now(),
-                    'updated_at' => now()  
-                ],
-                [
-                    'deck_id' => $lose_deck_id,
-                    'player_id' => $lose_player_id,
-                    'created_at' => now(),
-                    'updated_at' => now()  
-                ]                
-            ];
-
-            $deck_last_insert_id = DB::table('deck_player')->insertGetId($deck_player_result);
+            $battle_id++;
+            $win_deck_id = $lose_deck_id + 1;
+            $win_player_id = $win_player_id + 2;
         }
+    }
+
+    /**
+     * 
+     */
+    private function saveBattle($battle_id,$url)
+    {
+        $result_battle = [
+            'id' => $battle_id,
+            'url' => $url,
+            'created_at' => now(),
+            'updated_at' => now()  
+        ];
+        DB::table('battles')->insert($result_battle);
+    }
+
+    /**
+     * 
+     */
+    private function savePlayer($battle_id,$win_player_id,$winners_id,$lose_player_id,$losers_id)
+    {
+        $result_players = [
+            [
+                'id' => $win_player_id,
+                'battle_id' => $battle_id,
+                'cr_id' => $winners_id,
+                // 'winners_name' => $nameMatches[1][0],
+                // 'deck' => $winners_deck,
+                'result' => 1,
+                'created_at' => now(),
+                'updated_at' => now() 
+            ],
+            [
+                'id' => $lose_player_id,
+                'battle_id' => $battle_id,
+                'cr_id' => $losers_id,
+                // 'winners_name' => $nameMatches[1][0],
+                // 'deck' => $losers_deck,
+                'result' => 0,
+                'created_at' => now(),
+                'updated_at' => now() 
+            ],
+        ];
+        DB::table('players')->insert($result_players);
+    }
+
+    private function saveDeck($win_deck_id,$winners_deck,$lose_deck_id,$losers_deck)
+    {
+        $deck_result = [
+            [
+                'id' => $win_deck_id,
+                'name' => $this->createDeckName($winners_deck),
+                'created_at' => now(),
+                'updated_at' => now() 
+            ],
+            [
+                'id' => $lose_deck_id,
+                'name' => $this->createDeckName($losers_deck),
+                'created_at' => now(),
+                'updated_at' => now()  
+            ],
+        ];
+        DB::table('decks')->insert($deck_result);
+    }
+
+    /**
+     * 
+     */
+    private function saveDeckPlayer($win_deck_id,$win_player_id,$lose_deck_id,$lose_player_id)
+    {
+        $deck_player_result = [
+            [
+                'deck_id' => $win_deck_id,
+                'player_id' => $win_player_id,
+                'created_at' => now(),
+                'updated_at' => now()  
+            ],
+            [
+                'deck_id' => $lose_deck_id,
+                'player_id' => $lose_player_id,
+                'created_at' => now(),
+                'updated_at' => now()  
+            ]                
+        ];
+
+        DB::table('deck_player')->insert($deck_player_result);
     }
 
     /**

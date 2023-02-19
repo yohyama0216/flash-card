@@ -19,7 +19,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('battles');
         Schema::create('battles', function (Blueprint $table) {
-            $table->unsignedbigInteger('id');
+            $table->unsignedbigInteger('id')->autoIncrement();
             $table->string('url');
             $table->datetime('created_at');
             $table->datetime('updated_at');
@@ -30,7 +30,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('players');
         Schema::create('players', function (Blueprint $table) {
-            $table->unsignedbigInteger('id');
+            $table->unsignedbigInteger('id')->autoIncrement();
             // $table->string('profile_id');
             $table->unsignedbigInteger('cr_id');
             $table->unsignedbigInteger('battle_id');
@@ -45,7 +45,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('decks');
         Schema::create('decks', function (Blueprint $table) {
-            $table->unsignedbigInteger('id');
+            $table->unsignedbigInteger('id')->autoIncrement();
             $table->string('name');
             $table->datetime('created_at');
             $table->datetime('updated_at');
@@ -56,7 +56,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('deck_player');
         Schema::create('deck_player', function (Blueprint $table) {
-            $table->bigInteger('id');
+            // $table->unsignedbigInteger('id')->autoIncrement();
             $table->bigInteger('deck_id');
             $table->foreign('deck_id')->references('id')->on('decks')->cascadeOnUpdate()->cascadeOnDelete();
             $table->bigInteger('player_id');
@@ -70,7 +70,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('cards');
         Schema::create('cards', function (Blueprint $table) {
-            $table->bigInteger('id');
+            $table->unsignedbigInteger('id')->autoIncrement();
             $table->string('key');
             $table->string('name_jp');
             $table->tinyInteger('elixir');
@@ -92,7 +92,7 @@ return new class extends Migration
          */
         Schema::dropIfExists('card_deck');
         Schema::create('card_deck', function (Blueprint $table) {
-            $table->bigInteger('id');
+            $table->unsignedbigInteger('id')->autoIncrement();
             $table->bigInteger('deck_id');
             $table->foreign('deck_id')->references('id')->on('decks')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('card_id');

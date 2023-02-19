@@ -34,11 +34,11 @@ class BattleRepository
             $cardIdList = self::PEKKA_BATTLE_RAM_IDS;
         }
 
-        $win_conditions = $lose_conditions = [];
-        foreach($cardIdList as $cardId) {
-            $win_conditions[] = ['winner_deck', 'like','%'.$cardId.'%'];
-            $lose_conditions[] = ['loser_deck', 'like','%'.$cardId.'%'];
-        }
+        // $win_conditions = $lose_conditions = [];
+        // foreach($cardIdList as $cardId) {
+        //     $win_conditions[] = ['winner_deck', 'like','%'.$cardId.'%'];
+        //     $lose_conditions[] = ['loser_deck', 'like','%'.$cardId.'%'];
+        // }
 
         $query = $this->Battle::leftJoin('players as winner', function($join){
             $join->on('battles.id', '=', 'winner.battle_id',)
@@ -48,16 +48,21 @@ class BattleRepository
                 $join->on('battles.id', '=', 'loser.battle_id',)
                     ->where('loser.result', '=', 0);
             })
-            ->select('battles.id as battle_id','battles.url as battle_url','winner.deck as winner_deck','loser.deck as loser_deck');
+            ->join('deck_player as deck_winner', 'winner.id', '=', 'deck_winner.player_id')
+            ->join('deck_player as deck_loser', 'loser.id', '=', 'deck_loser.player_id')
+            ->join('decks as win_deck', 'win_deck.id', '=', 'deck_winner.deck_id')
+            ->join('decks as lose_deck', 'lose_deck.id', '=', 'deck_loser.deck_id')
 
-        if ($type == 'winner') {
-            $query = $query->where($win_conditions);
-        } else if ($type == 'loser') {
-            $query = $query->where($lose_conditions);
-        } else {
-            $query = $query->where($win_conditions)
-            ->orWhere($lose_conditions);
-        }
+            ->select('battles.id as battle_id','battles.url as battle_url','win_deck.id','lose_deck.id');
+
+        // if ($type == 'winner') {
+        //     $query = $query->where($win_conditions);
+        // } else if ($type == 'loser') {
+        //     $query = $query->where($lose_conditions);
+        // } else {
+        //     $query = $query->where($win_conditions)
+        //     ->orWhere($lose_conditions);
+        // }
         return $query->limit(10)->get();
     }
 }

@@ -20,7 +20,7 @@ class Battle extends Model
         $cardKeylist = [];
         foreach($cardIdList as $cardId) {           
             $Card = Card::find($cardId);
-            $cardKeylist[$cardId] = $Card->key;
+            //$cardKeylist[$cardId] = $Card->key;
         }
         return $cardKeylist;
     }
