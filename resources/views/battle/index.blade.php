@@ -27,7 +27,7 @@
                     @foreach($player->decks as $deck)
                     <p>@if ($player['result']) WIN @else LOSE @endif <br/>{{$deck['name']}}</p>    
                         <div class="col-2 d-flex align-items-center">
-                            <a href="{{$battle->getDeckCopyUrl('winner')}}">
+                            <a href="{{$deck->createCopyUrl()}}">
                                 <img height="35" src="https://cdn.statsroyale.com/images/copy.png">
                             </a>
                         </div>
